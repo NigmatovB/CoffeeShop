@@ -6,6 +6,8 @@ const os = require('os')
 const app = express()
 const PORT = process.env.PORT || 4004
 const host = os.networkInterfaces().en0[1].address || 'localhost'
+const db = require('./helper/data')
+db()
 
 app.use( cors() )
 app.use( express.json() )
