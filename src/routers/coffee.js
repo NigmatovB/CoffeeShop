@@ -5,7 +5,7 @@ const upload = require('../middlewares/upload')
 // Getting data in DB
 router.get('/', async ( req,res ) => {
     try{
-        let coffee = db.find({})
+        let coffee = await db.find({})
         res.send(coffee)
     } catch( error ){
         res.send(error)
@@ -15,7 +15,7 @@ router.get('/', async ( req,res ) => {
 // Add data to DB
 router.post('/', upload.single('image'), async ( req,res ) => {
     try{
-        let coffee = db.create({
+        let coffee = await db.create({
             name: req.body.name,
             price: req.body.price,
             time: req.body.time,
@@ -30,7 +30,7 @@ router.post('/', upload.single('image'), async ( req,res ) => {
 // Change the data in the DB
 router.put('/', upload.single('image'), async ( req,res ) => {
     try{
-        let coffee = db.findOneAndUpdate({
+        let coffee = await db.findOneAndUpdate({
             _id : req.body._id
         },{
             name: req.body.name,
@@ -45,10 +45,10 @@ router.put('/', upload.single('image'), async ( req,res ) => {
 } )
 
 // Delete data in DB
-router.put('/', async ( req,res ) => {
+router.delete('/', async ( req,res ) => {
     try{
-        let coffee = db.findOneAndDelete({
-            _id: req.body._
+        let coffee = await db.findOneAndDelete({
+            _id: req.body._id
         })
         res.send('data deleted')
     } catch( error ){

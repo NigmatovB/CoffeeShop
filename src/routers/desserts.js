@@ -1,12 +1,13 @@
 const router = require('express').Router()
-const db = require('../schema/ desserts')
+const db = require('../schema/desserts')
 const upload = require('../middlewares/upload')
 
 // Getting data in DB
 router.get('/', async ( req,res ) => {
     try{
-        let desserts = db.find({})
-        res.send(coffee)
+        let desserts = await db.find({})
+        console.log(desserts);
+        res.send(desserts)
     } catch( error ){
         res.send(error)
     }
@@ -15,7 +16,7 @@ router.get('/', async ( req,res ) => {
 // Add data to DB
 router.post('/', upload.single('image'), async ( req,res ) => {
     try{
-        let desserts = db.create({
+        let desserts = await db.create({
             name: req.body.name,
             price: req.body.price,
             image: req.file.filename,
@@ -29,7 +30,7 @@ router.post('/', upload.single('image'), async ( req,res ) => {
 // Change the data in the DB
 router.put('/', upload.single('image'), async ( req,res ) => {
     try{
-        let desserts = db.findOneAndUpdate({
+        let desserts = await db.findOneAndUpdate({
             _id : req.body._id
         },{
             name: req.body.name,
@@ -43,10 +44,10 @@ router.put('/', upload.single('image'), async ( req,res ) => {
 } )
 
 // Delete data in DB
-router.put('/', async ( req,res ) => {
+router.delete('/', async ( req,res ) => {
     try{
-        let desserts = db.findOneAndDelete({
-            _id: req.body._
+        let desserts = await db.findOneAndDelete({
+            _id: req.body._id
         })
         res.send('data deleted')
     } catch( error ){
